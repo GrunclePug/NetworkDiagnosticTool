@@ -1,0 +1,26 @@
+# Gitignore - AI Generated
+
+# Ignore Goland project files
+.idea/
+
+# Ignore Go build artifacts
+bin/
+obj/
+*.exe
+
+# Ignore IDE-generated files
+*.iml
+*.ipr
+*.iws
+
+# Ignore operating system-specific files
+.DS_Store
+.Thumbnails
+ehthumbs.db
+Icon?
+
+# Ignore Go vendor directory (if you're using modules)
+vendor/
+
+# Ignore Goland's cache directory
+.cache/

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Go Web App</title>
+    <link rel="icon" type="image/x-icon" href="/web/static/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/web/static/css/style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div id="pgSide">
+    <!-- LOGO -->
+    <div id="logo">
+        <img src="/web/static/img/logo.png" alt="logo">
+        <h1>Basic Go Web App</h1>
+    </div>
+</div>
+
+<!-- MAIN -->
+<main id="pgMain">
+    <div class="container">
+        {{if .Username}}
+        <div class="response">
+            <h3>Response: </h3>
+            <p>{{.Username}}</p>
+        </div>
+        {{end}}
+        <div id="get-container">
+            <h2>Get Request</h2>
+            <form class="form" action="/send" method="GET">
+                <input type="text" placeholder="username" name="user"/>
+                <button>Send GET</button>
+            </form>
+        </div>
+
+        <div id="post-container">
+            <h2>Post Request</h2>
+            <form class="form" action="/send" method="POST">
+                <input type="text" placeholder="username" name="user"/>
+                <button>Send POST</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
