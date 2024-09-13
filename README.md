@@ -1,5 +1,5 @@
-# BasicGoWebApp
-
+# NetworkDiagnosticTool
+## TODO REDO README
 A simple, open-source Web App written in Go 1.22 using the net/http package.
 
 ## Overview

@@ -1,49 +1,56 @@
 package web
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/grunclepug/networkdiagnostictool/util"
 	"html/template"
 	"log"
 	"net/http"
 )
 
-// User Holds form data
-type User struct {
-	Username string
+type Data struct {
+	SysInfo util.SysInfo
+	NetInfo util.NetInfo
 }
 
-// UserHandler Handles HTTP Requests for User form
-func UserHandler(w http.ResponseWriter, r *http.Request) {
+// RequestHandler Handles HTTP Requests
+func RequestHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("[INFO] New Request, Target: %v Source: %v\n", r.URL.Path, r.RemoteAddr)
 
+	// Build Data Struct
+	sysInfo := util.GetSysInfo()
+	netInfo := util.GetNetInfo()
+	data := Data{
+		SysInfo: sysInfo,
+		NetInfo: netInfo,
+	}
+
+	// Determine if request is for Dashboard or JSON response
 	switch r.URL.Path {
-	case "/": // Index
-		fmt.Println("[INFO] Serving Index")
-		templating(w, "web/static/index.html", nil)
-	case "/send": // Form Submission
-		if r.Method == "POST" {
-			// Parse Form
-			fmt.Println("[INFO] POST Received to /send")
-			err := r.ParseForm()
+	case "/": // Dashboard
+		fmt.Println("[INFO] Serving Dashboard")
+		templating(w, "web/static/index.html", data)
+	case "/json": // JSON API
+		if r.Method == "GET" {
+			// Marshal Data Struct to JSON
+			jsonData, err := json.Marshal(data)
 			if err != nil {
-				fmt.Println("[ERROR] Parse Form Error: ", err.Error())
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				marshalError := "[ERROR] Error Generating JSON Response"
+				fmt.Println(marshalError)
+				http.Error(w, marshalError, http.StatusInternalServerError)
 				return
 			}
-		} else { // GET
-			fmt.Println("[INFO] GET Received to /send")
-		}
 
-		// Pull Form Value
-		username := r.FormValue("user")
-		fmt.Println("[INFO] Parsed User from Request: ", username)
-
-		// Build HTML Template for response
-		user := User{
-			Username: username,
+			// Serve JSON
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(jsonData)
+		} else { // Fail on POST
+			methodError := "[ERROR] Incorrect HTTP Request Method Error"
+			fmt.Println(methodError)
+			http.Error(w, methodError, http.StatusInternalServerError)
+			return
 		}
-		fmt.Println("[INFO] Sending Response: ", user)
-		templating(w, "web/static/index.html", user)
 	}
 }
 

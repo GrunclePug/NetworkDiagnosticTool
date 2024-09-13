@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Basic Go Web App</title>
+    <meta http-equiv="refresh" content="5"/>
+    <title>Network Diagnostic Tool</title>
     <link rel="icon" type="image/x-icon" href="/web/static/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/web/static/css/style.css">
 </head>
@@ -13,33 +14,27 @@
     <!-- LOGO -->
     <div id="logo">
         <img src="/web/static/img/logo.png" alt="logo">
-        <h1>Basic Go Web App</h1>
+        <h1>Network Diagnostic Tool</h1>
     </div>
 </div>
 
 <!-- MAIN -->
 <main id="pgMain">
     <div class="container">
-        {{if .Username}}
-        <div class="response">
-            <h3>Response: </h3>
-            <p>{{.Username}}</p>
-        </div>
-        {{end}}
-        <div id="get-container">
-            <h2>Get Request</h2>
-            <form class="form" action="/send" method="GET">
-                <input type="text" placeholder="username" name="user"/>
-                <button>Send GET</button>
-            </form>
+        <div id="sys-container">
+            <h2>System Info</h2>
+            <p>Hostname: {{.SysInfo.Hostname}}</p>
+            <p>Platform: {{.SysInfo.Platform}}</p>
+            <p>Uptime: {{.SysInfo.Uptime}}</p>
+            <p>CPU: {{.SysInfo.CPU}}</p>
+            <p>RAM: {{.SysInfo.RAM}}</p>
+            <p>Disk: {{.SysInfo.Disk}}</p>
         </div>
 
-        <div id="post-container">
-            <h2>Post Request</h2>
-            <form class="form" action="/send" method="POST">
-                <input type="text" placeholder="username" name="user"/>
-                <button>Send POST</button>
-            </form>
+        <div id="network-container">
+            <h2>Network Info</h2>
+            <p>IP: {{.NetInfo.Interfaces}}</p>
+            <p>Public IP: {{.NetInfo.PublicIP}}</p>
         </div>
     </div>
 </main>
