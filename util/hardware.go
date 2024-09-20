@@ -39,7 +39,7 @@ func GetSysInfo() SysInfo {
 	return SysInfo{
 		Hostname: hostInfo.Hostname,
 		Platform: hostInfo.Platform,
-		Uptime:   uptime.String(),
+		Uptime:   fmt.Sprintf("%dh %dm %ds", int(uptime.Hours()), int(uptime.Minutes()) % 60, int(uptime.Seconds()) % 60),
 		CPU:      cpuInfo[0].ModelName,
 		RAM:      fmt.Sprintf("%v/%vGB (%v%%)", vmUsed, vmTotal, vmPercent),
 		Disk:     fmt.Sprintf("%v/%vGB (%v%%)", diskUsed, diskTotal, diskPercent),

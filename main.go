@@ -14,7 +14,11 @@ const port string = "8080"
 var ip net.IP
 
 func main() {
-	ip = util.GetLocalIPs()[0]
+	ips := util.LocalIPs()
+	ip = ips[0]
+	if len(ips) > 1 {
+		fmt.Println("[WARN] Multiple IP's detected, this may result in the incorrect IP being listed for the web server, listing all IP's: ", ips)
+	}
 
 	fmt.Printf("[INFO] Starting server on %v:8080\n", ip)
 	mux := http.NewServeMux()

@@ -33,7 +33,11 @@
 
         <div id="network-container">
             <h2>Network Info</h2>
-            <p>IP: {{.NetInfo.Interfaces}}</p>
+            <p>IP: {{ range $i, $ip := .NetInfo.IPs }}{{ if $i }}, {{ end }}{{ $ip }}{{ end }}</p>
+            <p>Subnet: {{ range $i, $subnet := .NetInfo.Subnets }}{{ if $i }}, {{ end }}{{ $subnet }}{{ end }}</p>
+            <p>Interface: {{ range $i, $interface := .NetInfo.Interfaces }}{{ if $i }}, {{ end }}{{ $interface }}{{ end }}</p>
+            <p>MAC: {{ range $i, $mac := .NetInfo.Macs }}{{ if $i }}, {{ end }}{{ $mac }}{{ end }}</p>
+            <p>Gateway: {{.NetInfo.Gateway}}</p>
             <p>Public IP: {{.NetInfo.PublicIP}}</p>
         </div>
     </div>
